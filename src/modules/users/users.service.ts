@@ -1,6 +1,7 @@
 import { PrismaService } from './../../prisma/prisma.service';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserCreateDTO } from './users.DTO';
+import { hash } from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -17,9 +18,18 @@ export class UsersService {
       throw new HttpException('User already Exists', HttpStatus.CONFLICT);
     }
 
-    const newUser = await this.prisma.user.create({ data });
+    const hashedPassword = await hash(data.password, 10);
 
-    return newUser;
+    const newUser = await this.prisma.user.create({
+      data: {
+        ...data,
+        password: hashedPassword,
+      },
+    });
+
+    const { password, ...response } = newUser;
+
+    return response;
   }
 
   async listUsers() {
