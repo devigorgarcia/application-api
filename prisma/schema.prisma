@@ -9,3 +9,52 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  password     String
+  applications Application[]
+
+  @@map("users")
+}
+
+model Application {
+  id            String   @id @default(uuid())
+  title         String
+  org           String
+  link          String
+  obs           String
+  register_date DateTime
+  updated_date  DateTime
+
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id String
+
+  status    Status @relation(fields: [status_id], references: [id], onDelete: Cascade)
+  status_id String
+
+  level    Levels @relation(fields: [level_id], references: [id], onDelete: Cascade)
+  level_id String
+
+  stack    Stacks @relation(fields: [stack_id], references: [id], onDelete: Cascade)
+  stack_id String
+}
+
+model Status {
+  id           String        @id @default(uuid())
+  status       String
+  applications Application[]
+}
+
+model Levels {
+  id           String        @id @default(uuid())
+  level        String
+  applications Application[]
+}
+
+model Stacks {
+  id           String        @id @default(uuid())
+  stack        String
+  applications Application[]
+}
