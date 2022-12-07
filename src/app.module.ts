@@ -13,9 +13,16 @@ import { LoginModule } from './modules/login/login.module';
 import { AuthMiddleware } from './middlewares/Auth.middleware';
 import { VerifyKeys } from './middlewares/VerifyUpdateKeys.middleware';
 import { VerifyUpdateKeys } from './middlewares/VerifyKeys.middleware';
+import { StatusModule } from './modules/status/status.module';
 
 @Module({
-  imports: [PrismaModule, UsersModule, ApplicationsModule, LoginModule],
+  imports: [
+    PrismaModule,
+    UsersModule,
+    ApplicationsModule,
+    LoginModule,
+    StatusModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
@@ -30,5 +37,8 @@ export class AppModule implements NestModule {
     consumer
       .apply(AuthMiddleware, VerifyUpdateKeys)
       .forRoutes({ path: 'applications/:app_id', method: RequestMethod.PATCH });
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes({ path: 'status/:status_id', method: RequestMethod.PATCH });
   }
 }
