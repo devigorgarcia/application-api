@@ -6,6 +6,12 @@ import { UpdateStatusDTO } from './status.DTO';
 export class StatusService {
   constructor(private prisma: PrismaService) {}
 
+  async listAllStatus() {
+    const listStatus = await this.prisma.status.findMany();
+
+    return listStatus;
+  }
+
   async updateStatus(data: UpdateStatusDTO, status_id: string) {
     const status = await this.prisma.status.findUnique({
       where: {

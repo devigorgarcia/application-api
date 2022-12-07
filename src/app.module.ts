@@ -14,6 +14,7 @@ import { AuthMiddleware } from './middlewares/Auth.middleware';
 import { VerifyKeys } from './middlewares/VerifyUpdateKeys.middleware';
 import { VerifyUpdateKeys } from './middlewares/VerifyKeys.middleware';
 import { StatusModule } from './modules/status/status.module';
+import { StacksModule } from './modules/stacks/stacks.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { StatusModule } from './modules/status/status.module';
     ApplicationsModule,
     LoginModule,
     StatusModule,
+    StacksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
