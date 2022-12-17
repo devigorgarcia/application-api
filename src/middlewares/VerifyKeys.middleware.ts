@@ -10,14 +10,16 @@ export class VerifyUpdateKeys implements NestMiddleware {
 
     const keys = Object.keys(body);
 
-    if (keys.length > 2) {
+    if (keys.length > 3) {
       throw new HttpException(
         'Can only update obs and link',
         HttpStatus.BAD_REQUEST,
       );
     }
 
-    const verify = keys.find((key) => key == 'obs' || key == 'link');
+    const verify = keys.find(
+      (key) => key == 'obs' || key == 'link' || key == 'status',
+    );
 
     if (!verify) {
       throw new HttpException(
