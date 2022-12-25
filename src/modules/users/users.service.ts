@@ -37,4 +37,23 @@ export class UsersService {
 
     return users;
   }
+
+  async listUser(userId: string) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+      include: {
+        applications: true,
+      },
+    });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    const { password, ...response } = user;
+
+    return response;
+  }
 }
