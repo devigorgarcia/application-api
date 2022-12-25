@@ -26,7 +26,6 @@ model Application {
   link          String
   obs           String
   register_date DateTime @default(now())
-  updated_date  DateTime @updatedAt
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
@@ -46,6 +45,7 @@ model Application {
 model Status {
   id           String        @id @default(uuid())
   status       String
+  updated_date DateTime      @updatedAt
   applications Application[]
 
   @@map("status")
