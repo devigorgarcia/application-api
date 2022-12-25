@@ -7,7 +7,11 @@ export class StatusService {
   constructor(private prisma: PrismaService) {}
 
   async listAllStatus() {
-    const listStatus = await this.prisma.status.findMany();
+    const listStatus = await this.prisma.status.findMany({
+      include: {
+        applications: true,
+      },
+    });
 
     return listStatus;
   }
