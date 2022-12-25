@@ -33,9 +33,9 @@ export class ApplicationsController {
     return this.applicationsService.listApplication(app_id);
   }
 
-  @Get('/:userId/user')
-  async listUserApp(@Param('userId') userId: string) {
-    return this.applicationsService.listUserApplications(userId);
+  @Get('/:user_id/user')
+  async listUserApp(@Param('user_id') user_id: string) {
+    return this.applicationsService.listUserApplications(user_id);
   }
 
   @Patch(':app_id')
