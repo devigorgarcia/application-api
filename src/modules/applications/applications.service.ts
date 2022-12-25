@@ -144,6 +144,12 @@ export class ApplicationsService {
       where: {
         userId: userId,
       },
+      include: {
+        level: true,
+        stack: true,
+        status: true,
+        user: true,
+      },
     });
 
     return userApplication;
