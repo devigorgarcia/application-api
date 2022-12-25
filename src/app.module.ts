@@ -15,6 +15,7 @@ import { VerifyKeys } from './middlewares/VerifyUpdateKeys.middleware';
 import { VerifyUpdateKeys } from './middlewares/VerifyKeys.middleware';
 import { StatusModule } from './modules/status/status.module';
 import { StacksModule } from './modules/stacks/stacks.module';
+import { isOwner } from './middlewares/isOwner.middleware';
 
 @Module({
   imports: [
@@ -36,6 +37,10 @@ export class AppModule implements NestModule {
     consumer
       .apply(AuthMiddleware)
       .forRoutes({ path: 'applications', method: RequestMethod.ALL });
+    consumer.apply(AuthMiddleware, isOwner).forRoutes({
+      path: 'applications/:userId/user',
+      method: RequestMethod.ALL,
+    });
     consumer
       .apply(AuthMiddleware, VerifyUpdateKeys)
       .forRoutes({ path: 'applications/:app_id', method: RequestMethod.PATCH });
