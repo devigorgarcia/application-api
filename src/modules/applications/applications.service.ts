@@ -128,4 +128,24 @@ export class ApplicationsService {
       },
     });
   }
+
+  async listUserApplications(userId: string) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    const userApplication = await this.prisma.application.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+
+    return userApplication;
+  }
 }
